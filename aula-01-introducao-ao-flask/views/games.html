@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diego Max Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        hr {
+            border: 1px solid #ffcc00;
+        }
+        ul, ol {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #1e1e1e;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo à página Diego Max Games!</h1>
+    <hr>
+    
+    <!-- Esse é um comentário em Jinja2. O Jinja tem como objetivo injetar código Python na web -->
+    
+    <p><strong>Game mais jogado no momento</strong></p>
+    {% for v, k in game.items() %}
+        <details>
+            <summary>{{k}}</summary>
+            {{v}}
+        </details>
+    {% endfor %}
+     
+    <ul>
+        <li><strong>Título:</strong> {{ game['titulo'] }}</li>
+        <li><strong>Ano:</strong> {{ game['ano'] }}</li>
+        <li><strong>Categoria:</strong> {{ game['categoria'] }}</li>
+    </ul> 
+    <p>O jogo <strong>{{ game['titulo'] }}</strong> tem <strong>{{ 2025 - 1 }}</strong> anos.</p>
+    <hr>
+    <p><strong>O jogo {{ game['titulo'] }} está sendo jogado por:</strong></p>
+    
+
+    <hr>
+    <p><strong>Principais jogos friv do momento:</strong></p>
+    <ul>
+        {% for jogofriv in jogosFriv %}
+        <li>{{ jogofriv }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
