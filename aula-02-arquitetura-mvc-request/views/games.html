@@ -50,9 +50,23 @@
         <li><strong>Ano:</strong> {{ game['ano'] }}</li>
         <li><strong>Categoria:</strong> {{ game['categoria'] }}</li>
     </ul> 
-    <p>O jogo <strong>{{ game['titulo'] }}</strong> tem <strong>{{ 2025 - 1 }}</strong> anos.</p>
+    <p>O jogo <strong>{{ game['titulo'] }}</strong> tem <strong>{{ 2025 - game['ano'] }}</strong> anos.</p>
     <hr>
     <p><strong>O jogo {{ game['titulo'] }} está sendo jogado por:</strong></p>
+    {% for jogador in jogadores %}
+    <ul>
+        <li>{{jogador}}</li>
+    </ul>
+    {% endfor %}
+
+
+    <h4>
+        <form action="{{url_for('games')}}" method="post">
+            <label>Jogador: </label>
+            <input type="text" name="jogador">
+            <input type="submit" value="entrar">
+        </form>
+    </h4>
     
 
     <hr>
