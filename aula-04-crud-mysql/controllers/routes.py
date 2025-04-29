@@ -1,4 +1,7 @@
 from flask import render_template, request, redirect, url_for
+from models.database import Game
+from models.database import Console
+
 
 # lista de jogadores 
 jogadores = ['miguel josé', 'miguel isack', 'leaf',
@@ -71,3 +74,11 @@ def init_app(app):
         return render_template("consoles.html", 
                             consoleList = consoleList
                             )
+
+    # rota de estoque (CRUD)
+    @app.route('/estoque')
+    def estoque():
+        # fazendo o SELECT no banco (pegando todos os jogos da tabela)
+        gamesestoque = Game.query.all()
+        consoleEstoque = Console.query.all()
+        return render_template('estoque.html', gamesestoque=gamesestoque, consoleEstoque=consoleEstoque)
