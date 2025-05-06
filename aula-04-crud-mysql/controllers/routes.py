@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from models.database import Game
-from models.database import Console
+from models.database import Game, Console, db
 
 
 # lista de jogadores 
@@ -76,9 +75,59 @@ def init_app(app):
                             )
 
     # rota de estoque (CRUD)
-    @app.route('/estoque')
-    def estoque():
-        # fazendo o SELECT no banco (pegando todos os jogos da tabela)
+    @app.route('/estoque', methods=['GET', 'POST'])
+    @app.route('/estoque/<int:id>/<string:type>')
+    def estoque(id=None, type=""):
+        if id and type=="game":
+            # buscando o jogo pela id
+            game=Game.query.get(id)
+            # deletando o jogo
+            db.session.delete(game)
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        elif id and type=="console":
+            # buscando o jogo pela id
+            console=Console.query.get(id)
+            # deletando o jogo
+            db.session.delete(console)
+            db.session.commit()
+            return redirect(url_for('estoque'))
+
+        # = atribuição
+        # == comparação de valor
+        # === comparação de tipo e valor
+        # Verificandose a requisição é POST:
+        if request.method == 'POST' and request.form.get("CadastrarJogo") == "true":
+            # cadastrando o novo jogo
+            newGame = Game(request.form['title'],
+                           request.form['year'], 
+                           request.form['category'], 
+                           request.form['platform'], 
+                           request.form['price'], 
+                           request.form['quantity'], 
+                           )
+            # Enviando para o banco
+            db.session.add(newGame)
+            # Confirmando as alterações
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        elif request.method == 'POST' and request.form.get("CadastrarConsole") == "true":
+            # cadastrando o novo jogo
+            newConsole = Console(request.form['name'],
+                           request.form['producer'], 
+                           request.form['price'], 
+                           request.form['quantity'], 
+                           )
+            # Enviando para o banco
+            db.session.add(newConsole)
+            # Confirmando as alterações
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        
+        
+            
+        
+        # fazendo um SELECT no banco (pegando todos os jogos da tabela)
         gamesestoque = Game.query.all()
         consoleEstoque = Console.query.all()
         return render_template('estoque.html', gamesestoque=gamesestoque, consoleEstoque=consoleEstoque)

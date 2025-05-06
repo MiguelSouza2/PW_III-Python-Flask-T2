@@ -15,6 +15,14 @@ class Game(db.Model):
     price = db.Column(db.Float)
     quantity = db.Column(db.Integer)
     
+    def __init__(self, title, year, category, platform, price, quantity):
+        self.title = title
+        self.year = year
+        self.category = category
+        self.price = price
+        self.platform = platform
+        self.quantity = quantity
+    
 class Console(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(150))
@@ -24,12 +32,10 @@ class Console(db.Model):
     
     
     # método construtor da classe do python
-    def __init__(self, title, year, category, platform, price, quantity):
-        self.title = title
-        self.year = year
-        self.category = category
+    def __init__(self, name, producer, price, quantity):
+        self.name = name
+        self.producer = producer
         self.price = price
-        self.platform = platform
         self.quantity = quantity
         
     
