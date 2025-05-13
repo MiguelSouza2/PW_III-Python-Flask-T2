@@ -75,23 +75,17 @@ def init_app(app):
                             )
 
     # rota de estoque (CRUD)
-    @app.route('/estoque', methods=['GET', 'POST'])
-    @app.route('/estoque/<int:id>/<string:type>')
-    def estoque(id=None, type=""):
-        if id and type=="game":
+    @app.route('/estoqueGames', methods=['GET', 'POST'])
+    @app.route('/estoqueGames/<int:id>')
+    def estoqueGames(id=None, type=""):
+        if id:
             # buscando o jogo pela id
             game=Game.query.get(id)
             # deletando o jogo
             db.session.delete(game)
             db.session.commit()
-            return redirect(url_for('estoque'))
-        elif id and type=="console":
-            # buscando o jogo pela id
-            console=Console.query.get(id)
-            # deletando o jogo
-            db.session.delete(console)
-            db.session.commit()
-            return redirect(url_for('estoque'))
+            return redirect(url_for('estoqueGames'))
+        
 
         # = atribuição
         # == comparação de valor
@@ -110,24 +104,51 @@ def init_app(app):
             db.session.add(newGame)
             # Confirmando as alterações
             db.session.commit()
-            return redirect(url_for('estoque'))
-        elif request.method == 'POST' and request.form.get("CadastrarConsole") == "true":
-            # cadastrando o novo jogo
-            newConsole = Console(request.form['name'],
-                           request.form['producer'], 
-                           request.form['price'], 
-                           request.form['quantity'], 
-                           )
-            # Enviando para o banco
-            db.session.add(newConsole)
-            # Confirmando as alterações
-            db.session.commit()
-            return redirect(url_for('estoque'))
+            return redirect(url_for('estoqueGames'))
+        
         
         
             
         
         # fazendo um SELECT no banco (pegando todos os jogos da tabela)
         gamesestoque = Game.query.all()
-        consoleEstoque = Console.query.all()
-        return render_template('estoque.html', gamesestoque=gamesestoque, consoleEstoque=consoleEstoque)
+        return render_template('estoqueGames.html', gamesestoque=gamesestoque)
+    
+    # rota de estoque (CRUD)
+    @app.route('/estoqueConsoles', methods=['GET', 'POST'])
+    @app.route('/estoqueConsoles/<int:id>')
+    def estoqueConsoles(id=None, type=""):
+        if id:
+            # buscando o jogo pela id
+            console=Console.query.get(id)
+            # deletando o jogo
+            db.session.delete(console)
+            db.session.commit()
+            return redirect(url_for('estoqueConsoles'))
+        
+
+        # = atribuição
+        # == comparação de valor
+        # === comparação de tipo e valor
+        # Verificandose a requisição é POST:
+        if request.method == 'POST' and request.form.get("CadastrarConsole") == "true":
+            # cadastrando o novo console
+            newConsole = Console(request.form['name'],
+                           request.form['producer'], 
+                           request.form['price'], 
+                           request.form['quantity'], 
+                           )
+        
+            # Enviando para o banco
+            db.session.add(newConsole)
+            # Confirmando as alterações
+            db.session.commit()
+            return redirect(url_for('estoqueConsoles'))
+        
+        
+            
+        
+        # fazendo um SELECT no banco (pegando todos os jogos da tabela)
+        consolesestoque = Console.query.all()
+        return render_template('estoqueConsoles.html', consolesestoque=consolesestoque)
+    
