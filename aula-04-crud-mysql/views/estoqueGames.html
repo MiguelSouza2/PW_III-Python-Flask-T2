@@ -41,7 +41,7 @@
             <td>{{game.platform}}</td>
             <td>R${{game.price}}</td>
             <td>{{game.quantity}}</td>
-            <td><button class="btn btn-warning">Editar</button></td>
+            <td><a href="{{url_for('editGame', id=game.id)}}"><button class="btn btn-warning">Editar</button></a></td>
             <td><a href="{{url_for('estoqueGames', id=game.id)}}"><button class="btn btn-danger">Excluir</button></a></td>
         </tr>
         {% endfor %}

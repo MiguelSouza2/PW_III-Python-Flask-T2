@@ -152,3 +152,24 @@ def init_app(app):
         consolesestoque = Console.query.all()
         return render_template('estoqueConsoles.html', consolesestoque=consolesestoque)
     
+    
+    # rota de EDIÇÃO de jogos
+    @app.route('/editGame/<int:id>', methods=['GET', 'POST'])
+    def editGame(id):
+        # busca o jogo pela id
+        game = Game.query.get(id)
+        
+        # editando o jogo com as informações vinda do formulário 
+        if request.method == "POST":
+            # coletando as informações
+            game.title = request.form['title']
+            game.year = request.form['year']
+            game.category = request.form['category']
+            game.platform = request.form['platform']
+            game.price = request.form['price']
+            game.quantity = request.form['quantity']
+            db.session.commit()
+            
+            return redirect(url_for('estoqueGames'))
+                        
+        return render_template('editGame.html', game=game)
