@@ -173,3 +173,23 @@ def init_app(app):
             return redirect(url_for('estoqueGames'))
                         
         return render_template('editGame.html', game=game)
+    
+        # rota de EDIÇÃO de consoles
+    @app.route('/editConsole/<int:id>', methods=['GET', 'POST'])
+    def editConsole(id):
+        # busca o console pela id
+        console = Console.query.get(id)
+        
+        # editando o jogo com as informações vinda do formulário 
+        if request.method == "POST":
+            # coletando as informações
+            console.name = request.form['name']
+            console.producer = request.form['producer']
+            console.price = request.form['price']
+            console.quantity = request.form['quantity']
+            
+            db.session.commit()
+            
+            return redirect(url_for('estoqueConsoles'))
+                        
+        return render_template('editConsole.html', console=console)

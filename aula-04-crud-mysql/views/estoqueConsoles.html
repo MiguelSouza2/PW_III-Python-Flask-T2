@@ -35,7 +35,7 @@
             <td>{{console.producer}}</td>
             <td>R${{console.price}}</td>
             <td>{{console.quantity}}</td>
-            <td><button class="btn btn-warning">Editar</button></td>
+            <td><a href="{{url_for('editConsole', id=console.id)}}"><button class="btn btn-warning">Editar</button></a></td>
             <td><a href="{{url_for('estoqueConsoles', id=console.id)}}"><button class="btn btn-danger">Excluir</button></a></td>
 
         </tr>
